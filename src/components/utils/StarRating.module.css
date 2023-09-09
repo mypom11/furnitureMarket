@@ -1,0 +1,23 @@
+.star-ratings {
+  font-size: 16px;
+  color: #fff;
+  position: relative;
+  unicode-bidi: bidi-override;
+  width: max-content;
+  margin: 0 auto;
+}
+
+.star-ratings-fill {
+  padding: 0;
+  position: absolute;
+  z-index: 1;
+  display: flex;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+}
+
+.star-ratings-base {
+  z-index: 0;
+  padding: 0;
+}

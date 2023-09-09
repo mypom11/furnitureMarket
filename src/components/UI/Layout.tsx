@@ -1,7 +1,11 @@
 import React from "react";
 
-const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  return <>{children}</>;
+const Layout = ({ children }: defaultProps) => {
+  return (
+    <main className="m-auto max-w-[1920px] bg-light pb-32 dark:bg-dark">
+      {children}
+    </main>
+  );
 };
 
 export default Layout;

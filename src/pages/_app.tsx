@@ -5,6 +5,9 @@ import { Noto_Sans_KR, Roboto, Rouge_Script } from "next/font/google";
 import "@/styles/globals.css";
 import type { AppProps } from "next/app";
 import { ThemeProvider } from "next-themes";
+import { Provider } from "react-redux";
+import store from "@/store";
+import MyCart from "@/components/MyCart";
 
 const notoSansKr = Noto_Sans_KR({
   subsets: ["latin"],
@@ -30,17 +33,18 @@ export const cls = (...classnames: string[]) => {
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <ThemeProvider>
+    <ThemeProvider attribute="class">
       <div
         className={cls(notoSansKr.variable, roboto.variable, rouge.variable)}
       >
-        <Layout>
+        <Provider store={store}>
           <Header />
-          <main className="text_dark dark:text-light">
+          <Layout>
             <Component {...pageProps} />
-          </main>
+          </Layout>
+          <MyCart />
           <Footer />
-        </Layout>
+        </Provider>
       </div>
     </ThemeProvider>
   );

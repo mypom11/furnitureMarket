@@ -3,23 +3,17 @@
 @tailwind utilities;
 
 @layer utilities {
-  .text_light {
-    @apply text-light dark:text-dark;
-  }
-  .text_dark {
-    @apply text-dark dark:text-light;
-  }
-  .border_light {
-    @apply border-light dark:border-dark;
-  }
-  .border_dark {
-    @apply border-dark dark:border-light;
-  }
   .bg_light {
     @apply bg-light dark:bg-dark;
   }
   .bg_dark {
     @apply bg-dark dark:bg-light;
+  }
+  .text_light {
+    @apply text-light dark:text-dark;
+  }
+  .text_dark {
+    @apply text-dark dark:text-light;
   }
   .fl_between {
     @apply flex items-center justify-between;
@@ -29,5 +23,8 @@
   }
   .po_center {
     @apply absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2;
+  }
+  .inner {
+    @apply w-75 sm:w-100;
   }
 }
