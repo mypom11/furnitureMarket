@@ -36,7 +36,9 @@ const MoreButton = () => {
   return (
     <button className="group relative shadow-md">
       <span className="absolute -left-[20%] top-1/2 -z-[1] h-6 w-6 -translate-y-1/2 rounded-full bg-primary/60 duration-200 group-hover:w-[140%]"></span>
-      <Link href="/">더 보기</Link>
+      <Link href="/" className="text-sm">
+        더 보기
+      </Link>
     </button>
   );
 };
@@ -51,9 +53,9 @@ const VisualItem: React.FC<{ item: visualComponent }> = ({ item }) => {
       />
       <div className="absolute left-0 top-0 -z-[1] h-full w-full bg-black/60"></div>
 
-      <div className="absolute top-1/2 -translate-y-1/2 px-32">
-        <h1 className="mb-6 text-6xl font-bold">{item.title}</h1>
-        <p className="mb-4 w-1/2 break-words font-medium text-light/90">
+      <div className="absolute top-1/2 -translate-y-1/2 px-32  md:w-full md:text-center lg:px-16">
+        <h1 className="mb-6 text-6xl font-bold lg:text-3xl">{item.title}</h1>
+        <p className="mb-4 w-1/2 break-words font-medium text-light/90 md:w-full lg:w-2/3 lg:text-sm">
           {item.desc}
         </p>
         <MoreButton />
@@ -68,7 +70,7 @@ const Visual = () => {
   );
 
   return (
-    <section className="w-full px-32">
+    <section className="w-full px-32 md:px-0 lg:px-8">
       <div>
         <Slider
           items={visualItems}

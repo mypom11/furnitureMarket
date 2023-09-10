@@ -50,28 +50,30 @@ const Categroy: React.FC<{ product: Product[] }> = ({ product }) => {
   };
 
   return (
-    <section className="px-32 py-12">
-      <h1 className="mb-8 text-center text-2xl font-bold">Category</h1>
-      <ul className="fl_center mb-4 gap-8">
+    <section className="px-32 py-12 md:px-4 md:py-8 lg:px-8">
+      <h1 className="mb-8 text-center text-2xl font-bold lg:text-base">
+        Category
+      </h1>
+      <ul className="fl_center mb-4 gap-8 md:gap-4">
         {categroies.map((item) => (
           <li
             onClick={() => selectedChangeHandler(item.id)}
             key={item.id}
-            className={`group relative cursor-pointer hover:font-medium ${
+            className={`group relative cursor-pointer hover:font-medium lg:text-sm ${
               selectedId === item.id ? "font-medium" : "font-normal"
             }`}
           >
             {item.name}
             <span
-              className={`absolute bottom-0 left-0 h-[1px] w-0 bg-dark transition-all duration-100 group-hover:w-full ${
+              className={`absolute bottom-0 left-0 h-[1px] w-0 bg-dark transition-all duration-100 group-hover:w-full dark:bg-light ${
                 selectedId === item.id ? "w-full" : "w-0"
               }`}
             />
           </li>
         ))}
       </ul>
-      <hr className="mb-8" />
-      <h2 className="mb-4 text-2xl font-bold">
+      <hr className="mb-8 md:mb-4" />
+      <h2 className="mb-4 text-2xl font-bold lg:text-base">
         {currentSelected && currentSelected.name}
       </h2>
       <ProductList items={filterdProduct} />

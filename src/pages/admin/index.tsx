@@ -25,29 +25,29 @@ const Login = () => {
   };
 
   return (
-    <section className="relative h-screen">
-      <div className="po_center w-1/4 rounded-lg border-[1px] border-solid border-dark bg-white p-12 shadow-md">
+    <section className="relative flex h-screen w-full items-center justify-center md:px-4">
+      <div className="w-1/4 rounded-lg border-[1px] border-solid border-dark bg-white p-12 shadow-md md:w-full lg:w-1/2">
         <form onSubmit={submitHandler}>
           <div className="mb-4">
-            <p>관리자 아이디</p>
+            <p className="mb-1 text-dark md:text-sm">관리자 아이디</p>
             <input
               type="text"
               ref={idRef}
-              className="rounded-2 w-full rounded-md bg-gray-200 px-4 py-2"
+              className="rounded-2 w-full rounded-md bg-gray-200 px-4 py-2 text-dark"
               placeholder="아이디를 입력하세요"
             />
           </div>
           <div className="mb-8">
-            <p>비밀번호</p>
+            <p className="mb-1 text-dark md:text-sm">비밀번호</p>
             <input
               ref={passwordRef}
               type="password"
-              className="rounded-2 w-full rounded-md bg-gray-200 px-4 py-2"
+              className="rounded-2 w-full rounded-md bg-gray-200 px-4 py-2 text-dark"
               placeholder="비밀번호를 입력하세요"
             />
           </div>
 
-          <button className="w-full rounded-lg bg-dark py-4 text-lg font-bold text-light">
+          <button className="w-full rounded-lg bg-dark py-4 text-lg font-bold text-light md:py-2 md:text-base">
             로그인 하기
           </button>
         </form>

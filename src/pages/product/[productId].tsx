@@ -1,24 +1,18 @@
 import { MinusIcon, PlusIcon } from "@/components/Icons";
 import ReviewList from "@/components/ReviewList";
 import { CartItem, Product } from "@/models";
-import Image, { StaticImageData } from "next/image";
+import Image from "next/image";
 import React, { useState } from "react";
-import { SectionTitle } from "..";
-import ProductListSm from "@/components/product/ProductListSm";
 import { GetStaticProps } from "next";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { cartAction } from "@/store/cart-slice";
 import { uiAction } from "@/store/ui-slice";
+import { priceToWon } from "@/components/utils/util";
 
 const ProductDescription: React.FC<{ item: Product }> = ({ item }) => {
   const dispatch = useDispatch();
   const [quantity, setQuantity] = useState(1);
   dispatch(uiAction.setRecentView(item.id));
-
-  const priceToWon: (price: number) => string = (price) => {
-    const newPrice = price.toLocaleString("ko-KR");
-    return `${newPrice}원`;
-  };
 
   const quantityChangeHanlder = (type: string) => {
     if (type === "increment") {
@@ -41,34 +35,40 @@ const ProductDescription: React.FC<{ item: Product }> = ({ item }) => {
   };
 
   return (
-    <div className="w-2/5">
+    <div className="w-2/5 md:w-full">
       <div className="my-6">
-        <span className="text-dark/50">[{item.company}]</span>
-        <h1 className="pb-4 text-2xl font-medium">{item.name}</h1>
-        <p className="text-right text-2xl">{priceToWon(item.price)}</p>
+        <span className="text-dark/50 dark:text-light/50">
+          [{item.company}]
+        </span>
+        <h1 className="pb-4 text-2xl font-medium lg:text-lg">{item.name}</h1>
+        <p className="text-right text-2xl lg:text-lg">
+          {priceToWon(+item.price)}
+        </p>
 
-        <hr className="my-12" />
+        <hr className="my-12 lg:my-6" />
 
         <div>
-          <p>{item.desc}</p>
+          <p className="lg:text-sm">{item.desc}</p>
         </div>
 
-        <hr className="my-12" />
+        <hr className="my-12 lg:my-6" />
 
-        <div className="flex items-center justify-between">
-          <span className="text-dark/50">수량</span>
-          <div className="mb-8 flex items-center justify-end">
+        <div className="mb-8 flex items-center justify-between">
+          <span className="text-dark/50 dark:text-light/50 lg:text-sm">
+            수량
+          </span>
+          <div className="flex items-center justify-end">
             <button
-              className="bg-slate-600 px-4 py-1 text-2xl text-light hover:bg-red-500"
+              className="border-[1px] border-solid border-dark bg-slate-600 px-4 py-1 text-2xl text-light hover:bg-red-500 lg:px-2 lg:py-0 lg:text-lg"
               onClick={() => quantityChangeHanlder("decrement")}
             >
               <MinusIcon />
             </button>
-            <span className="block h-full w-16 border-[1px] border-solid border-dark px-4 text-center text-xl">
+            <span className="block h-full w-16 border-[1px] border-solid border-dark px-4 text-center text-xl lg:px-2 lg:py-0 lg:text-base">
               {quantity}
             </span>
             <button
-              className="bg-slate-600 px-4 py-1 text-2xl text-light hover:bg-primary"
+              className="border-[1px] border-solid border-dark bg-slate-600 px-4 py-1 text-2xl text-light hover:bg-primary lg:px-2 lg:py-0 lg:text-lg"
               onClick={() => quantityChangeHanlder("increment")}
             >
               <PlusIcon />
@@ -77,19 +77,21 @@ const ProductDescription: React.FC<{ item: Product }> = ({ item }) => {
         </div>
 
         <div className="mb-8 flex items-center justify-between">
-          <span className="text-dark/50">총 가격</span>
-          <h2 className="text-2xl font-bold">
+          <span className="text-dark/50 dark:text-light/50 lg:text-sm">
+            총 가격
+          </span>
+          <h2 className="text-2xl font-bold lg:text-lg">
             {priceToWon(item.price * quantity)}
           </h2>
         </div>
         <div className="flex justify-between gap-4">
           <button
-            className="flex-grow rounded-lg border-2 border-solid border-slate-600 bg-slate-600 py-2 text-light hover:shadow-lg"
+            className="flex-grow rounded-lg border-2 border-solid border-slate-600 bg-slate-600 py-2 text-light hover:shadow-lg lg:text-sm"
             onClick={addCartHandler}
           >
             장바구니 담기
           </button>
-          <button className="flex-grow rounded-lg border-2 border-solid border-slate-600 py-2 hover:shadow-lg">
+          <button className="flex-grow rounded-lg border-2 border-solid border-slate-600 py-2 hover:shadow-lg lg:text-sm">
             구입하기
           </button>
         </div>
@@ -106,7 +108,7 @@ const ProductImg: React.FC<{ img: string[] }> = ({ img }) => {
   };
 
   return (
-    <div className="flex w-3/5 flex-col gap-2">
+    <div className="flex w-3/5 flex-col gap-2 md:w-full">
       <div className="relative max-h-[70vh] w-full overflow-hidden rounded-lg">
         <Image
           src={img[imgIndex]}
@@ -138,10 +140,10 @@ const ProductImg: React.FC<{ img: string[] }> = ({ img }) => {
 };
 
 const ProductDetail: React.FC<{ product: Product }> = ({ product }) => {
-  console.log(product);
   return (
-    <main className="px-32 py-12">
-      <article className="flex-between mb-12 flex gap-14 px-32">
+    <main className="px-32 py-12 md:px-4 md:py-8 lg:px-8">
+      <article className="flex-between mb-12 flex gap-14 px-32 md:flex-col md:items-center md:gap-4 lg:px-0">
+        <h2 className="hidden text-xl font-bold md:block">{product.name}</h2>
         <ProductImg img={product.img} />
         <ProductDescription item={product} />
       </article>
@@ -149,10 +151,6 @@ const ProductDetail: React.FC<{ product: Product }> = ({ product }) => {
       {/* <article className="px-32">
         <ReviewList />
       </article> */}
-
-      {/* <SectionTitle text="최근 본 제품" className="px-0">
-        <ProductListSm />
-      </SectionTitle> */}
     </main>
   );
 };

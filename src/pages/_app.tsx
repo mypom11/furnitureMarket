@@ -6,7 +6,7 @@ import "@/styles/globals.css";
 import type { AppProps } from "next/app";
 import { ThemeProvider } from "next-themes";
 import { Provider } from "react-redux";
-import store from "@/store";
+import wrapper from "@/store";
 import MyCart from "@/components/MyCart";
 
 const notoSansKr = Noto_Sans_KR({
@@ -32,15 +32,20 @@ export const cls = (...classnames: string[]) => {
 };
 
 export default function App({ Component, pageProps }: AppProps) {
+  const { store, props } = wrapper.useWrappedStore(pageProps);
   return (
     <ThemeProvider attribute="class">
       <div
-        className={cls(notoSansKr.variable, roboto.variable, rouge.variable)}
+        className={`${cls(
+          notoSansKr.variable,
+          roboto.variable,
+          rouge.variable,
+        )} bg-light dark:bg-dark`}
       >
         <Provider store={store}>
           <Header />
           <Layout>
-            <Component {...pageProps} />
+            <Component {...props} />
           </Layout>
           <MyCart />
           <Footer />

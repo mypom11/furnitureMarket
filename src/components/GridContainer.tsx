@@ -33,7 +33,7 @@ const items: gridContainer[] = [
 const GridItem = ({ title, img, className }: gridContainer) => {
   return (
     <article
-      className={`group relative cursor-pointer overflow-hidden first:col-start-1 first:col-end-3 first:row-start-1 first:row-end-3 ${className}`}
+      className={`group relative cursor-pointer overflow-hidden first:col-start-1 first:col-end-3 first:row-start-1 first:row-end-3 md:first:col-end-1 md:first:row-end-1 ${className}`}
     >
       <Image
         src={img}
@@ -41,7 +41,7 @@ const GridItem = ({ title, img, className }: gridContainer) => {
         className="absolute left-0 top-0 h-full w-full duration-500 group-hover:scale-[1.2]"
       />
       <div className="absolute left-0 top-0 h-full w-full bg-dark/75 duration-500 group-hover:opacity-20">
-        <span className="absolute bottom-6 left-6 text-4xl font-bold text-light group-hover:opacity-0">
+        <span className="absolute bottom-6 left-6 text-4xl font-bold text-light group-hover:opacity-0 lg:text-2xl">
           {title}
         </span>
       </div>
@@ -51,13 +51,13 @@ const GridItem = ({ title, img, className }: gridContainer) => {
 
 const GridContainer = () => {
   return (
-    <section className="grid h-[50vh] grid-cols-4 grid-rows-2 gap-2 px-32">
+    <section className="grid h-[50vh] grid-cols-4 grid-rows-2 gap-2 px-32 md:grid-cols-2 md:gap-1  md:px-0 lg:h-[30vh] lg:px-8">
       {items.map((item, index) => (
         <GridItem
           key={index}
           title={item.title}
           img={item.img}
-          className={index === 2 ? "row-start-1 row-end-3" : ""}
+          className={index === 2 ? "row-start-1 row-end-3 md:row-end-1" : ""}
         />
       ))}
     </section>

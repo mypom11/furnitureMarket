@@ -15,6 +15,19 @@ const config: Config = {
       roboto: ["var(--roboto)", ...fontFamily.sans],
       rouge: ["var(--rouge-script)"],
     },
+    screens: {
+      lg: { max: "1200px" },
+      // => @media (max-width: 1023px) { ... }
+
+      md: { max: "767px" },
+      // => @media (max-width: 767px) { ... }
+
+      sm: { max: "639px" },
+      // => @media (max-width: 639px) { ... }
+
+      xs: { max: "479px" },
+      // => @media (max-width: 479px) { ... }
+    },
     colors: {
       dark: "#1b1b1b",
       light: "#f5f5f5",

@@ -2,6 +2,7 @@ import React from "react";
 import { Product } from "@/models";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import { priceToWon } from "../utils/util";
 
 interface ItemComponent {
   className?: string;
@@ -10,11 +11,6 @@ interface ItemComponent {
 
 const ProductItem = ({ className, item }: ItemComponent) => {
   const router = useRouter();
-  //숫자를 가격으로 변환 표기함수
-  const priceToWon: (price: number) => string = (price) => {
-    const newPrice = price.toLocaleString("ko-KR");
-    return `${newPrice}원`;
-  };
 
   const linkToDetailHandler = (id: string) => {
     console.log(id);
@@ -38,9 +34,15 @@ const ProductItem = ({ className, item }: ItemComponent) => {
         )}
       </div>
       <div className="pl-2">
-        <p className="my-1 text-sm text-dark/50">[{item.company}]</p>
-        <h2 className="h-20 text-lg font-medium">{item.name}</h2>
-        <p className="text-right text-xl font-bold">{priceToWon(item.price)}</p>
+        <p className="my-2 text-sm text-dark/50 dark:text-light/50 lg:my-1 lg:text-xs">
+          [{item.company}]
+        </p>
+        <h2 className="lg:h-18 h-20 text-lg font-medium lg:text-sm">
+          {item.name}
+        </h2>
+        <p className="text-right text-xl font-bold lg:text-sm">
+          {priceToWon(+item.price)}
+        </p>
       </div>
     </li>
   );
@@ -48,7 +50,7 @@ const ProductItem = ({ className, item }: ItemComponent) => {
 
 const ProductList: React.FC<{ items: Product[] }> = ({ items }) => {
   return (
-    <ul className="grid grid-cols-5 items-center justify-start gap-5">
+    <ul className="grid grid-cols-5 items-center justify-start gap-5 md:grid-cols-3 md:gap-2">
       {items.map((item: Product) => (
         <ProductItem key={item.id} item={item} />
       ))}

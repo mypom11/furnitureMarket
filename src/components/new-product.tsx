@@ -3,6 +3,8 @@ import React, { useState } from "react";
 import Image from "next/image";
 import { MinusIcon } from "@/components/Icons";
 import { useRouter } from "next/router";
+import Portal from "./utils/Portal";
+import { Backdrop } from "./MyCart";
 
 const FileInput: React.FC<{
   onImageChange: (files: File[]) => void;
@@ -58,9 +60,9 @@ const FileInput: React.FC<{
         onChange={imageChangeHandler}
         required
       />
-      <ul className="flex items-center justify-start gap-2">
+      <ul className="grid grid-cols-4 gap-2 md:grid-cols-2">
         {previews?.map((preview, index) => (
-          <li className="relative h-40 w-1/4 border-[1px] p-2" key={index}>
+          <li className="relative h-40  border-[1px] p-2" key={index}>
             <Image
               src={preview}
               alt={`${preview}-${index}`}
@@ -90,8 +92,11 @@ const NewProduct = () => {
     desc: "",
     images: [] as File[],
   });
+
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const createProductData = async (data: productForm) => {
+    setIsLoading(true);
     const postCloudnary = async (imageData: FormData) => {
       const response = await fetch(
         `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload`,
@@ -151,6 +156,7 @@ const NewProduct = () => {
     } catch (error) {
       console.log(error);
     }
+    setIsLoading(false);
   };
 
   const createProductHandler = (event: React.FormEvent) => {
@@ -172,16 +178,31 @@ const NewProduct = () => {
   };
 
   return (
-    <section className="relative min-h-screen px-32">
-      <div className="po_center w-1/2 rounded-lg border-[1px] border-solid border-dark/50 bg-white p-12 shadow-md">
-        <h1 className="mb-12 text-center text-2xl font-bold">신규 제품 등록</h1>
-        <form onSubmit={createProductHandler} className="flex flex-col gap-4">
+    <section className="relative flex items-center justify-center px-32 py-12 md:px-4 lg:px-8">
+      {isLoading && (
+        <Portal selector="backDrop">
+          <>
+            <Backdrop />
+            <div className="po_center text-lg"></div>
+          </>
+        </Portal>
+      )}
+      <div className="w-full rounded-lg border-[1px] border-solid border-dark/50 bg-white p-12 shadow-md dark:bg-slate-700 md:w-full md:p-4">
+        <h1 className="mb-12 text-center text-2xl font-bold md:mb-4 md:text-base">
+          신규 제품 등록
+        </h1>
+        <form
+          onSubmit={createProductHandler}
+          className="flex flex-col gap-4 md:text-sm"
+        >
           <div>
-            <p className="mb-1 text-dark/75">제품 카테고리</p>
+            <p className="mb-1 text-dark/75 dark:text-light/75 ">
+              제품 카테고리
+            </p>
             <select
               name="category"
               onChange={(e) => updateFormData("category", e.target.value)}
-              className="w-1/4 rounded-md border-[1px] border-solid border-dark/50 px-4 py-2"
+              className="w-1/4 rounded-md border-[1px] border-solid border-dark/50 px-4 py-2 md:w-full"
             >
               <option value={1}>의자</option>
               <option value={2}>책상</option>
@@ -192,7 +213,7 @@ const NewProduct = () => {
             </select>
           </div>
           <div>
-            <p className="mb-1 text-dark/75">제작 회사명</p>
+            <p className="mb-1 text-dark/75 dark:text-light/75 ">제작 회사명</p>
             <input
               type="text"
               name="company"
@@ -203,7 +224,7 @@ const NewProduct = () => {
             />
           </div>
           <div>
-            <p className="mb-1 text-dark/75">제품 이름</p>
+            <p className="mb-1 text-dark/75 dark:text-light/75 ">제품 이름</p>
             <input
               type="text"
               name="name"
@@ -214,7 +235,7 @@ const NewProduct = () => {
             />
           </div>
           <div>
-            <p className="mb-1 text-dark/75">제품 가격</p>
+            <p className="mb-1 text-dark/75 dark:text-light/75 ">제품 가격</p>
             <input
               type="number"
               name="price"
@@ -225,7 +246,7 @@ const NewProduct = () => {
             />
           </div>
           <div>
-            <p className="mb-1 text-dark/75">제품 설명</p>
+            <p className="mb-1 text-dark/75 dark:text-light/75 ">제품 설명</p>
             <textarea
               name="desc"
               className="h-32 w-full resize-none rounded-md border-[1px] border-solid border-dark/50 px-4 py-2"
@@ -236,14 +257,14 @@ const NewProduct = () => {
           </div>
 
           <div className="mb-4">
-            <p className="mb-4 text-dark/75">
+            <p className="mb-4 text-dark/75 dark:text-light/75 ">
               제품 이미지를 등록하세요.(최대 4장)
             </p>
             <FileInput onImageChange={handleImageChange} />
           </div>
 
           <button
-            className="w-full rounded-lg bg-dark py-4 text-lg font-bold text-light"
+            className="w-full rounded-lg bg-dark py-4 text-lg font-bold text-light md:py-2 md:text-base"
             type="submit"
           >
             제품 등록하기
