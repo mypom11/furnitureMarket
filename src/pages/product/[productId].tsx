@@ -12,7 +12,7 @@ import { priceToWon } from "@/components/utils/util";
 const ProductDescription: React.FC<{ item: Product }> = ({ item }) => {
   const dispatch = useDispatch();
   const [quantity, setQuantity] = useState(1);
-  dispatch(uiAction.setRecentView(item.id));
+  dispatch(uiAction.setRecentView(item.id!));
 
   const quantityChangeHanlder = (type: string) => {
     if (type === "increment") {
