@@ -7,6 +7,7 @@ import bannerImg from "@/assets/images/recommend.jpg";
 import ProductListSm from "@/components/product/ProductListSm";
 import { Product } from "@/models";
 import { useSelector } from "react-redux";
+import Head from "next/head";
 
 export const SectionTitle = ({ className, text, children }: defaultProps) => {
   return (
@@ -55,6 +56,9 @@ const HomePage: React.FC<{ product: Product[] }> = ({ product }) => {
 
   return (
     <>
+      <Head>
+        <title>Furniture Market Home</title>
+      </Head>
       <Visual />
 
       <SectionTitle text="새로 출시된 제품">

@@ -86,7 +86,7 @@ const MyCart = () => {
 
   return (
     <aside
-      className={`fixed right-0 top-0 z-40 h-screen w-2/3  bg-light p-12 duration-500 ease-in-out dark:bg-dark md:w-full md:px-4 
+      className={`fixed right-0 top-0 z-40 h-screen w-1/2  bg-light p-12 duration-500 ease-in-out dark:bg-dark md:w-full md:px-4  lg:w-2/3
       ${isShow === true ? "translate-x-[0]" : "translate-x-[100%]"}`}
     >
       {isShow && (
