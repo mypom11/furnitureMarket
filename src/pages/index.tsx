@@ -24,7 +24,7 @@ const HomePage: React.FC<{ product: Product[] }> = ({ product }) => {
   const recentlyAdded = () => {
     //날짜비교
     const newArr = [...product].sort(
-      (a, b) => new Date(b.date) - new Date(a.date),
+      (a, b) => +new Date(b.date) - +new Date(a.date),
     );
     return newArr.slice(0, 10);
   };

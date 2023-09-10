@@ -20,7 +20,7 @@ const ProductItem = ({ className, item }: ItemComponent) => {
   return (
     <li
       className="boder-dark group w-full cursor-pointer border-2 border-solid p-2 hover:shadow-md"
-      onClick={() => linkToDetailHandler(item.id)}
+      onClick={() => linkToDetailHandler(item.id!)}
     >
       <div className="overflow-hidden">
         {item.img && (

@@ -32,7 +32,7 @@ export class Product {
 export class Review {
   productId: string;
   name: string;
-  date: Date;
+  date: Date | any;
   content: string;
   point: number;
 
