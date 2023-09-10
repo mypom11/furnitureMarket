@@ -1,30 +1,31 @@
 let idNum = 0;
 export class Product {
-  id: string;
+  id?: string;
   name: string;
   price: number;
-  size: string;
   desc: string;
   date: Date;
   company: string;
-  img?: string[];
+  category: number;
+  reviews: Review[];
+  img: string[];
 
   constructor(
     company: string,
     name: string,
     price: number,
-    size: string,
     desc: string,
-    img?: string[],
+    category: number,
+    img: string[],
   ) {
-    this.id = `product-${idNum++}`;
+    this.category = category;
     this.date = new Date();
     this.name = name;
     this.company = company;
     this.desc = desc;
     this.price = price;
-    this.size = size;
     this.img = img;
+    this.reviews = [];
   }
 }
 
@@ -50,6 +51,7 @@ export class CartItem {
   quantity: number;
   productCompany: string;
   productPrice: number;
+  img: string;
 
   constructor(
     id: string,
@@ -57,11 +59,13 @@ export class CartItem {
     quantity: number,
     company: string,
     price: number,
+    img: string,
   ) {
     this.productId = id;
     this.productName = name;
     this.quantity = quantity;
     this.productCompany = company;
     this.productPrice = price;
+    this.img = img;
   }
 }

@@ -1,14 +1,19 @@
 import { MinusIcon, PlusIcon } from "@/components/Icons";
 import ReviewList from "@/components/ReviewList";
-import { Product } from "@/models";
+import { CartItem, Product } from "@/models";
 import Image, { StaticImageData } from "next/image";
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
 import { SectionTitle } from "..";
 import ProductListSm from "@/components/product/ProductListSm";
+import { GetStaticProps } from "next";
+import { useDispatch } from "react-redux";
+import { cartAction } from "@/store/cart-slice";
+import { uiAction } from "@/store/ui-slice";
 
 const ProductDescription: React.FC<{ item: Product }> = ({ item }) => {
+  const dispatch = useDispatch();
   const [quantity, setQuantity] = useState(1);
+  dispatch(uiAction.setRecentView(item.id));
 
   const priceToWon: (price: number) => string = (price) => {
     const newPrice = price.toLocaleString("ko-KR");
@@ -21,6 +26,18 @@ const ProductDescription: React.FC<{ item: Product }> = ({ item }) => {
     } else if (type === "decrement" && quantity !== 1) {
       setQuantity((prevState) => prevState - 1);
     }
+  };
+  const addCartHandler = () => {
+    const cartItem = new CartItem(
+      item.id!,
+      item.name,
+      quantity,
+      item.company,
+      item.price,
+      item.img[0],
+    );
+
+    dispatch(cartAction.addItemToCart(cartItem));
   };
 
   return (
@@ -66,7 +83,10 @@ const ProductDescription: React.FC<{ item: Product }> = ({ item }) => {
           </h2>
         </div>
         <div className="flex justify-between gap-4">
-          <button className="flex-grow rounded-lg border-2 border-solid border-slate-600 bg-slate-600 py-2 text-light hover:shadow-lg">
+          <button
+            className="flex-grow rounded-lg border-2 border-solid border-slate-600 bg-slate-600 py-2 text-light hover:shadow-lg"
+            onClick={addCartHandler}
+          >
             장바구니 담기
           </button>
           <button className="flex-grow rounded-lg border-2 border-solid border-slate-600 py-2 hover:shadow-lg">
@@ -78,7 +98,7 @@ const ProductDescription: React.FC<{ item: Product }> = ({ item }) => {
   );
 };
 
-const ProductImg: React.FC<{ img: StaticImageData[] }> = ({ img }) => {
+const ProductImg: React.FC<{ img: string[] }> = ({ img }) => {
   const [imgIndex, setImgIndex] = useState(0);
 
   const imgChangeHandler = (index: number) => {
@@ -117,26 +137,78 @@ const ProductImg: React.FC<{ img: StaticImageData[] }> = ({ img }) => {
   );
 };
 
-const ProductDetail = () => {
-  const product = useSelector((state: RootState) => state.product.items);
-
-  const selectedProduct = product[0];
+const ProductDetail: React.FC<{ product: Product }> = ({ product }) => {
+  console.log(product);
   return (
     <main className="px-32 py-12">
       <article className="flex-between mb-12 flex gap-14 px-32">
-        <ProductImg img={selectedProduct.img} />
-        <ProductDescription item={selectedProduct} />
+        <ProductImg img={product.img} />
+        <ProductDescription item={product} />
       </article>
 
-      <article className="px-32">
+      {/* <article className="px-32">
         <ReviewList />
-      </article>
+      </article> */}
 
-      <SectionTitle text="최근 본 제품" className="px-0">
+      {/* <SectionTitle text="최근 본 제품" className="px-0">
         <ProductListSm />
-      </SectionTitle>
+      </SectionTitle> */}
     </main>
   );
 };
 
 export default ProductDetail;
+
+export const getStaticPaths = async () => {
+  const response = await fetch(
+    "https://react-http-238a4-default-rtdb.firebaseio.com/FurnitureProduct.json",
+  );
+
+  const data = await response.json();
+
+  const productData = [];
+  for (const key in data) {
+    productData.push({
+      id: key,
+    });
+  }
+  const paths = productData.map((product) => ({
+    params: { productId: product.id.toString() },
+  }));
+  console.log(paths);
+
+  return {
+    fallback: "blocking",
+    paths,
+  };
+};
+
+export const getStaticProps: GetStaticProps = async (context) => {
+  const productId = context.params!.productId;
+  const response = await fetch(
+    "https://react-http-238a4-default-rtdb.firebaseio.com/FurnitureProduct.json",
+  );
+
+  const data = await response.json();
+
+  const productData = [];
+  for (const key in data) {
+    productData.push({
+      id: key,
+      category: data[key].category,
+      company: data[key].company,
+      date: data[key].date,
+      desc: data[key].desc,
+      name: data[key].name,
+      price: data[key].price,
+      img: data[key].img,
+    });
+  }
+
+  const selectedProduct = productData.find((item) => item.id === productId);
+  return {
+    props: {
+      product: selectedProduct,
+    },
+  };
+};

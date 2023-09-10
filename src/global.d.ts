@@ -10,4 +10,13 @@ interface bannerComponent {
   title: string;
 }
 
+interface productForm {
+  company: string;
+  name: string;
+  price: number;
+  category: number;
+  desc: string;
+  images: File[];
+}
+
 type RootState = ReturnType<typeof store.getState>;
