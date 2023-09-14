@@ -141,8 +141,8 @@ const ProductImg: React.FC<{ img: string[] }> = ({ img }) => {
 
 const ProductDetail: React.FC<{ product: Product }> = ({ product }) => {
   return (
-    <main className="px-32 py-12 md:px-4 md:py-8 lg:px-8">
-      <article className="flex-between mb-12 flex gap-14 px-32 md:flex-col md:items-center md:gap-4 lg:px-0">
+    <main className="px-32 py-12 lg:px-8 md:px-4 md:py-8">
+      <article className="flex-between mb-12 flex gap-14 px-32 lg:px-0 md:flex-col md:items-center md:gap-4">
         <h2 className="hidden text-xl font-bold md:block">{product.name}</h2>
         <ProductImg img={product.img} />
         <ProductDescription item={product} />
@@ -176,7 +176,7 @@ export const getStaticPaths = async () => {
   console.log(paths);
 
   return {
-    fallback: "blocking",
+    fallback: true,
     paths,
   };
 };
@@ -208,5 +208,6 @@ export const getStaticProps: GetStaticProps = async (context) => {
     props: {
       product: selectedProduct,
     },
+    revalidate: 60,
   };
 };
